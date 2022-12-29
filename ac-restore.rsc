@@ -1,4 +1,4 @@
-# policy=read,write,test
+# policy=read,write,policy,test
 
 :local ac [:parse [/system script get _ac source]]
 :local acPrev [:parse [/system script get _ac_prev source]]
