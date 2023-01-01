@@ -39,7 +39,7 @@ for line in SHUTDOWNS.read_text().splitlines():
     name_ = "ac-shutdown"
     policy = get_policy(name_)
 
-    day, time = line.split()
+    day, time = line.split()[:2]
     date = datetime.datetime(2001, 1, int(day), *map(int, time.split(":")))
 
     name_suff = "{date.day}-{date.hour:02}".format(date=date)
