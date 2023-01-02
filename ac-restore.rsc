@@ -3,6 +3,8 @@
 :local ac [:parse [/system script get _ac source]]
 :local acPrev [:parse [/system script get _ac_prev source]]
 
+:delay 20
+
 :local acState [$ac]
 :local acPrevState [$acPrev]
 
