@@ -17,16 +17,17 @@ TEMPLATE_ST = (
 )
 
 POLICY_PATTERN = re.compile("^# (policy=.+)$", flags=re.MULTILINE)
+DISABLED_PATTERN = re.compile("^# scheduler: (disable=(yes|no)+)$", flags=re.MULTILINE)
 
 
-def get_policy(name: str) -> str:
+def parse_comment(name: str) -> str:
     content = Path(name).with_suffix(".rsc").read_text()
-    match = POLICY_PATTERN.search(content)
-    return match.group(1) if match else ""
+    matches = [p.search(content)for p in (POLICY_PATTERN, DISABLED_PATTERN)]
+    return " ".join(m.group(1) for m in matches if m)
 
 
 def schedule_on_boot(name: str, interval: str) -> str:
-    return TEMPLATE.format(name, interval, get_policy(name))
+    return TEMPLATE.format(name, interval, parse_comment(name))
 
 
 print(schedule_on_boot("ac-check", "20s"))
@@ -37,7 +38,7 @@ for line in SHUTDOWNS.read_text().splitlines():
         continue
 
     name_ = "ac-shutdown"
-    policy = get_policy(name_)
+    params = parse_comment(name_)
 
     day, time = line.split()[:2]
     date = datetime.datetime(2001, 1, int(day), *map(int, time.split(":")))
@@ -48,4 +49,4 @@ for line in SHUTDOWNS.read_text().splitlines():
     start_date = sched_date.strftime("%b/%d/%Y").lower()
     start_time = str(sched_date.time())
 
-    print(TEMPLATE_ST.format(name_, name_suff, start_date, start_time, policy))
+    print(TEMPLATE_ST.format(name_, name_suff, start_date, start_time, params))

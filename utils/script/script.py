@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 from typing import Tuple
 
-EXTRA_PARAMS_PATTERN = re.compile(r"^# (.+=.+)$", flags=re.MULTILINE)
+EXTRA_PARAMS_PATTERN = re.compile(r"^# (\w+=.+)$", flags=re.MULTILINE)
 TEMPLATE = '/system script add name="%s" %s source={%s}'
 
 

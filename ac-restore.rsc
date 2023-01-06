@@ -1,4 +1,5 @@
 # policy=read,write,policy,test
+# scheduler: disable=yes
 
 :local ac [:parse [/system script get _ac source]]
 :local acPrev [:parse [/system script get _ac_prev source]]
