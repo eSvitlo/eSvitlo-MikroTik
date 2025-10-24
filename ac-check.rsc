@@ -6,6 +6,14 @@
 :local acState [$ac]
 :local acPrevState [$acPrev]
 
+:for LoopCount from=1 to=15 do={
+  :if ($acState = $acPrevState) do={
+    :return
+  }
+  :set acState [$ac]
+  :delay 1
+}
+
 :if ($acState = 1 && $acPrevState = 0) do={
   /system script run ac-online
 } else={
